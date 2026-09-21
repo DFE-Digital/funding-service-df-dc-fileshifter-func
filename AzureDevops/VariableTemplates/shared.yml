@@ -1,0 +1,18 @@
+﻿variables:
+  SharedResourceGroupName: $(ResourcePrefix)rg-uks-df-dc-shared
+  LinuxAppServicePlanName: $(ResourcePrefix)asp-df-dc-linux
+  SharedKeyVaultName: $(ResourcePrefix)kv-df-dc-shared
+  SharedVirtualNetworkName: $(ResourcePrefix)vnet-df-dc-shared
+  SharedSubnetName: $(ResourcePrefix)subnet-df-dc-shared
+  SharedAppInsightsName: $(ResourcePrefix)ai-df-dc-shared
+  SharedLogAnalyticsName: $(ResourcePrefix)la-df-dc-shared
+
+  LinuxFileShifterFunctionAppName: $(ResourcePrefix)fa-df-dc-fileshifter-linux
+
+  # Tags
+  ServiceTag: 'Funding and Allocations'
+  ServiceLineTag: 'Funding'
+  ParentBusinessTag: 'Funding and Allocations'
+  PortfolioTag: 'Education And Skills Funding Agency'
+  ProductTag: 'Funding Service Digital Forms'
+  ServiceOfferingTag: 'Digital Forms'

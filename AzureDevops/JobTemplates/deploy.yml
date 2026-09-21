@@ -1,0 +1,32 @@
+﻿parameters:
+- name: AzureServiceConnection
+  type: string
+- name: Environment
+  type: string
+
+jobs:
+- deployment: DeployTo${{ parameters.Environment }}
+  displayName: "Deploy To ${{ parameters.Environment }}"
+  environment: Doc Capture - ${{ parameters.Environment }}
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - task: AzureResourceManagerTemplateDeployment@3
+          displayName: 'Deploy arm template'
+          inputs:
+            azureResourceManagerConnection: '${{ parameters.AzureServiceConnection }}'
+            subscriptionId: '$(AzureSubscription)'
+            resourceGroupName: '$(SharedResourceGroupName)'
+            location: 'UK South'
+            csmFile: '$(Pipeline.Workspace)/DocCapture.ArmTemplates.FileShifterFunc/template.json'
+            deploymentName: 'data-store-func-app'
+            overrideParameters: '-environmentTag "$(EnvironmentTag)" -parentBusinessTag "$(ParentBusinessTag)" -portfolioTag "$(PortfolioTag)" -productTag "$(ProductTag)" -serviceLineTag "$(ServiceLineTag)" -serviceTag "$(ServiceTag)" -serviceOfferingTag "$(ServiceOfferingTag)" -sharedVirtualNetworkName "$(SharedVirtualNetworkName)" -sharedSubnetName "$(SharedSubnetName)" -sharedLogAnalyticsName "$(SharedLogAnalyticsName)" -sharedAppInsightsName "$(SharedAppInsightsName)" -sharedKeyVaultName "$(SharedKeyVaultName)" -linuxAppServicePlanName "$(LinuxAppServicePlanName)" -functionAppNameLinux "$(linuxFileShifterFunctionAppName)" -FauAPIIPAddress "$(FauAPIIPAddress)" -apimIpAddresses "$(EapimIpAddresses)" -docCaptureRootFolderLocation "$(DocCaptureRootFolderLocation)"'
+
+        - task: AzureFunctionApp@2
+          displayName: Deploy linuxfunction app
+          inputs:
+            azureSubscription: '${{ parameters.AzureServiceConnection }}'
+            appType: functionAppLinux
+            appName: '$(linuxFileShifterFunctionAppName)'
+            package: '$(Pipeline.Workspace)/DocCapture.FileShifterFunc/publish.zip'

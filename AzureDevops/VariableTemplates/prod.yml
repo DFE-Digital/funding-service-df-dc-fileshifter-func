@@ -1,0 +1,14 @@
+variables:
+  ResourcePrefix: s255p01
+  AzureSubscription: '5c6c1684-e39d-4947-8b76-72aaa5e082ab'
+  DeploymentServicePrincipal: '45fdcc7e-f354-45b7-bfc5-6490e41d1772'
+
+  # Doc Capture root folder location
+  DocCaptureRootFolderLocation:  DocCapture-prod
+
+  # EAPIM ip config - comma-seperated list of ip addresses
+  EapimIpAddresses: '108.142.57.201'
+  FauAPIIPAddress: '4.180.203.96/32'
+
+  # Tags
+  EnvironmentTag: Prod
